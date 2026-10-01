@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+dist/
+build/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Environment files (secrets must never be committed)
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+*.out
+
+# Go
+backend/bin/
+backend/tmp/
+
+# Misc
+*.tmp
+.cache/
