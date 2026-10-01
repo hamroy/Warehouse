@@ -4,9 +4,12 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"warehouse-management/backend/internal/item"
+	"warehouse-management/backend/internal/location"
+	"warehouse-management/backend/internal/stock"
 )
 
 // Meta carries pagination metadata.
@@ -79,6 +82,10 @@ func HandleError(w http.ResponseWriter, err error) {
 	case item.IsConflict(err):
 		WriteError(w, http.StatusConflict, "Conflict", err.Error())
 	case item.IsNotFound(err):
+		WriteError(w, http.StatusNotFound, "Not found", err.Error())
+	case errors.Is(err, location.ErrNotFound):
+		WriteError(w, http.StatusNotFound, "Not found", err.Error())
+	case errors.Is(err, stock.ErrNotFound):
 		WriteError(w, http.StatusNotFound, "Not found", err.Error())
 	default:
 		WriteError(w, http.StatusInternalServerError, "Internal server error")

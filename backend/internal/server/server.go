@@ -9,6 +9,8 @@ import (
 	"warehouse-management/backend/internal/api"
 	"warehouse-management/backend/internal/handler"
 	"warehouse-management/backend/internal/item"
+	"warehouse-management/backend/internal/location"
+	"warehouse-management/backend/internal/stock"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -34,12 +36,20 @@ func New(db *sql.DB) *chi.Mux {
 	itemSvc := item.NewService(itemRepo)
 	itemHandler := api.NewItemHandler(itemSvc)
 
+	locRepo := location.NewRepository(db)
+	stockRepo := stock.NewRepository(db)
+	stockSvc := stock.NewService(stockRepo, itemRepo, locRepo)
+	stockHandler := api.NewStockHandler(stockSvc)
+
 	r.Route("/api/v1", func(api chi.Router) {
 		api.Post("/items", itemHandler.Create)
 		api.Get("/items", itemHandler.List)
 		api.Get("/items/{id}", itemHandler.GetByID)
 		api.Put("/items/{id}", itemHandler.Update)
 		api.Delete("/items/{id}", itemHandler.Delete)
+
+		api.Post("/stock/receive", stockHandler.Receive)
+		api.Get("/stock/{item_id}", stockHandler.GetByItem)
 	})
 
 	return r
