@@ -25,6 +25,7 @@ func New(db *sql.DB) *chi.Mux {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Recoverer)
 	r.Use(middleware.Heartbeat("/healthz"))
+	r.Use(CORS)
 	r.Use(Logger)
 
 	r.Get("/health", handler.Health)
