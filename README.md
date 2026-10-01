@@ -258,16 +258,9 @@ npm run build
 Manual QA checklist ada di `Docs/PRD/warehouse-management-task-breakdown.md`
 (TASK-1301..1303).
 
-## Technical Decisions
+## Author
 
-Lihat [Docs/DECISIONS.md](Docs/DECISIONS.md) untuk keputusan arsitektur,
-pemilihan database, dan strategy transaksi.
+**Ilham Royani**
 
-## AI Declaration
-
-Lihat [Docs/AI-DECLARATION.md](Docs/AI-DECLARATION.md) untuk pernyataan
-penggunaan AI tools dalam pengerjaan project ini.
-
-## Lisensi
-
-Internal — Technical Test
+- GitHub: https://github.com/hamroy
+- Repository: https://github.com/hamroy/Warehouse
