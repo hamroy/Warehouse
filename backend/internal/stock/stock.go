@@ -20,12 +20,12 @@ type Stock struct {
 
 // StockDetail joins stock with item and location display fields.
 type StockDetail struct {
-	ItemID     uuid.UUID `json:"item_id"`
-	ItemSKU    string    `json:"item_sku"`
-	ItemName   string    `json:"item_name"`
-	LocationID uuid.UUID `json:"location_id"`
-	LocationCode string  `json:"location_code"`
-	Qty        int       `json:"qty"`
+	ItemID       uuid.UUID `json:"item_id"`
+	ItemSKU      string    `json:"item_sku"`
+	ItemName     string    `json:"item_name"`
+	LocationID   uuid.UUID `json:"location_id"`
+	LocationCode string    `json:"location_code"`
+	Qty          int       `json:"qty"`
 }
 
 // ReceiveRequest is the payload for receiving stock.

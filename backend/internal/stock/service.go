@@ -20,15 +20,26 @@ func (e *ValidationError) Error() string {
 	return fmt.Sprintf("%s: %s", e.Field, e.Msg)
 }
 
+// itemRepo is the subset of the item repository the stock service needs.
+// *item.Repository and unit-test fakes both satisfy it.
+type itemRepo interface {
+	FindByID(ctx context.Context, id string) (*item.Item, error)
+}
+
+// locationRepo is the subset of the location repository the stock service needs.
+type locationRepo interface {
+	ExistsByID(ctx context.Context, id string) (bool, error)
+}
+
 // Service holds stock business logic.
 type Service struct {
-	repo       *Repository
-	items      *item.Repository
-	locations  *location.Repository
+	repo      *Repository
+	items     itemRepo
+	locations locationRepo
 }
 
 // NewService returns a Service bound to the given repositories.
-func NewService(repo *Repository, items *item.Repository, locations *location.Repository) *Service {
+func NewService(repo *Repository, items itemRepo, locations locationRepo) *Service {
 	return &Service{repo: repo, items: items, locations: locations}
 }
 

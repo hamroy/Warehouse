@@ -10,6 +10,11 @@ import (
 // ErrNotFound signals the location does not exist.
 var ErrNotFound = errors.New("location not found")
 
+// IsNotFound reports whether err is the location not-found error.
+func IsNotFound(err error) bool {
+	return errors.Is(err, ErrNotFound)
+}
+
 // Repository handles database access for locations.
 type Repository struct {
 	db *sql.DB

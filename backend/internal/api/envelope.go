@@ -73,11 +73,6 @@ func WriteError(w http.ResponseWriter, status int, message string, errs ...strin
 func HandleError(w http.ResponseWriter, err error) {
 	switch {
 	case item.IsValidation(err):
-		var vErr *item.ValidationError
-		if e, ok := err.(*item.ValidationError); ok {
-			vErr = e
-		}
-		_ = vErr
 		WriteError(w, http.StatusBadRequest, "Validation failed", err.Error())
 	case item.IsConflict(err):
 		WriteError(w, http.StatusConflict, "Conflict", err.Error())

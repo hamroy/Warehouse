@@ -26,13 +26,25 @@ func (e *ConflictError) Error() string {
 	return fmt.Sprintf("sku %q already exists", e.SKU)
 }
 
+// Repo is the persistence surface the Service needs. It is satisfied by
+// *Repository and by fakes in unit tests, so the service can be tested
+// without a database.
+type Repo interface {
+	Create(ctx context.Context, it *Item) error
+	FindByID(ctx context.Context, id string) (*Item, error)
+	FindAll(ctx context.Context, q ListQuery) ([]Item, int, error)
+	Update(ctx context.Context, id string, req UpdateRequest) (*Item, error)
+	SoftDelete(ctx context.Context, id string) error
+	ExistsBySKU(ctx context.Context, sku string) (bool, error)
+}
+
 // Service holds item business logic.
 type Service struct {
-	repo *Repository
+	repo Repo
 }
 
 // NewService returns a Service bound to the given repository.
-func NewService(repo *Repository) *Service {
+func NewService(repo Repo) *Service {
 	return &Service{repo: repo}
 }
 
