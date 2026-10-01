@@ -1,4 +1,6 @@
-import { Link, Route, Routes } from 'react-router-dom'
+import { HashRouter, Link, Route, Routes } from 'react-router-dom'
+import ItemListPage from './pages/items/ItemListPage'
+import ItemFormPage from './pages/items/ItemFormPage'
 
 function HomePage() {
   return (
@@ -13,9 +15,13 @@ function HomePage() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/items" element={<div>Item list (TASK-701)</div>} />
-    </Routes>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/items" element={<ItemListPage />} />
+        <Route path="/items/new" element={<ItemFormPage />} />
+        <Route path="/items/:id/edit" element={<ItemFormPage />} />
+      </Routes>
+    </HashRouter>
   )
 }
