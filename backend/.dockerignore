@@ -1,0 +1,16 @@
+# dependencies & build output
+**/node_modules
+**/dist
+**/bin
+**/tmp
+
+# local env (secrets)
+.env
+.env.*
+!.env.example
+
+# misc
+.git
+.gitignore
+*.md
+docs/

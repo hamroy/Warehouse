@@ -1,0 +1,13 @@
+# dependencies & build output
+node_modules
+dist
+
+# local env (secrets)
+.env
+.env.*
+!.env.example
+
+# misc
+.git
+.gitignore
+*.log
