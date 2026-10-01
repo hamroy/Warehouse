@@ -1,18 +1,22 @@
 package server
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"time"
 
+	"warehouse-management/backend/internal/api"
 	"warehouse-management/backend/internal/handler"
+	"warehouse-management/backend/internal/item"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
 
 // New builds the HTTP router with all registered routes.
-func New() *chi.Mux {
+// The db handle is optional; when nil only the health endpoint is mounted.
+func New(db *sql.DB) *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
@@ -22,8 +26,21 @@ func New() *chi.Mux {
 
 	r.Get("/health", handler.Health)
 
-	// API versioning mount point; item & stock routes attach here in later tasks.
-	r.Route("/api/v1", func(api chi.Router) {})
+	if db == nil {
+		return r
+	}
+
+	itemRepo := item.NewRepository(db)
+	itemSvc := item.NewService(itemRepo)
+	itemHandler := api.NewItemHandler(itemSvc)
+
+	r.Route("/api/v1", func(api chi.Router) {
+		api.Post("/items", itemHandler.Create)
+		api.Get("/items", itemHandler.List)
+		api.Get("/items/{id}", itemHandler.GetByID)
+		api.Put("/items/{id}", itemHandler.Update)
+		api.Delete("/items/{id}", itemHandler.Delete)
+	})
 
 	return r
 }
